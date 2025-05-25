@@ -1,0 +1,24 @@
+# broken-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-container
+        image: nginx:latest
+        readinessProbe:
+          httpGet:
+            path: /non-existent
+            port: 80
+          initialDelaySeconds: 2
+          periodSeconds: 5
